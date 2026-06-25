@@ -1,5 +1,9 @@
 # CMC Macro Gate
 
+[![CI](https://github.com/ipezygj/cmc-macro-gate/actions/workflows/ci.yml/badge.svg)](https://github.com/ipezygj/cmc-macro-gate/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+![Python](https://img.shields.io/badge/python-3.9%2B-blue)
+
 A tiny, dependency-free **macro risk-budget layer** for any trading engine,
 powered by the [CoinMarketCap Skill Hub](https://coinmarketcap.com). Pure Python
 standard library — no `pip install` needed.
@@ -7,6 +11,8 @@ standard library — no `pip install` needed.
 It pulls CMC's daily market overview (regime, Fear & Greed, suggested risk
 budget) and turns it into a single **position-size multiplier** and an
 **action** (`NORMAL` / `REDUCE` / `VETO`) your strategy can apply.
+
+![demo](docs/demo.svg)
 
 ## The idea
 

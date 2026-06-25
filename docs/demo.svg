@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="340" viewBox="0 0 760 340" font-family="SFMono-Regular, Menlo, Consolas, monospace" font-size="14">
+  <rect width="760" height="340" rx="8" fill="#0d1117"/>
+  <rect width="760" height="30" rx="8" fill="#161b22"/>
+  <rect y="22" width="760" height="8" fill="#161b22"/>
+  <circle cx="20" cy="15" r="6" fill="#ff5f56"/>
+  <circle cx="40" cy="15" r="6" fill="#ffbd2e"/>
+  <circle cx="60" cy="15" r="6" fill="#27c93f"/>
+  <text x="380" y="19" text-anchor="middle" fill="#8b949e" font-size="12">cmc-macro-gate</text>
+
+  <g xml:space="preserve">
+    <text x="18" y="62"><tspan fill="#27c93f">$ </tspan><tspan fill="#c9d1d9">export CMC_MCP_API_KEY=</tspan><tspan fill="#6e7681">••••••••</tspan></text>
+
+    <text x="18" y="86"><tspan fill="#27c93f">$ </tspan><tspan fill="#c9d1d9">python cmc_macro.py refresh</tspan></text>
+    <text x="18" y="108" fill="#8b949e">[cmc-macro] wrote cmc_macro.json: regime=headwind_tightening</text>
+    <text x="18" y="126" fill="#8b949e">             fear_greed=18 budget=30%</text>
+
+    <text x="18" y="156"><tspan fill="#27c93f">$ </tspan><tspan fill="#c9d1d9">python cmc_macro.py show --direction LONG</tspan></text>
+    <text x="18" y="180" fill="#c9d1d9">{</text>
+    <text x="34" y="200"><tspan fill="#79c0ff">"regime"</tspan><tspan fill="#c9d1d9">: </tspan><tspan fill="#a5d6ff">"headwind_tightening"</tspan><tspan fill="#c9d1d9">,</tspan></text>
+    <text x="34" y="220"><tspan fill="#79c0ff">"fear_greed"</tspan><tspan fill="#c9d1d9">: </tspan><tspan fill="#ffa657">18</tspan><tspan fill="#c9d1d9">,</tspan></text>
+    <text x="34" y="240"><tspan fill="#79c0ff">"size_mult"</tspan><tspan fill="#c9d1d9">: </tspan><tspan fill="#ffa657">0.24</tspan><tspan fill="#c9d1d9">,</tspan></text>
+    <text x="34" y="260"><tspan fill="#79c0ff">"action"</tspan><tspan fill="#c9d1d9">: </tspan><tspan fill="#ff7b72">"REDUCE"</tspan><tspan fill="#c9d1d9">,</tspan></text>
+    <text x="34" y="280"><tspan fill="#79c0ff">"stale"</tspan><tspan fill="#c9d1d9">: </tspan><tspan fill="#79c0ff">false</tspan><tspan fill="#c9d1d9">,</tspan></text>
+    <text x="34" y="300"><tspan fill="#79c0ff">"note"</tspan><tspan fill="#c9d1d9">: </tspan><tspan fill="#a5d6ff">"regime=headwind_tightening | extreme_fear(18) | …"</tspan></text>
+    <text x="18" y="320" fill="#c9d1d9">}</text>
+  </g>
+</svg>

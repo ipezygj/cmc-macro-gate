@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Compile (syntax check)
+        run: python -m compileall -q cmc_macro.py example.py hummingbot_example.py
+
+      - name: Gate smoke test (offline, sample cache)
+        run: |
+          cat > cmc_macro.json <<'JSON'
+          {
+            "fetched_at": "2999-01-01T00:00:00Z",
+            "regime": "headwind_tightening",
+            "risk_bias": "defensive_research_only",
+            "fear_greed": 18,
+            "risk_budget": {"max_position_pct": 30}
+          }
+          JSON
+          python cmc_macro.py show --direction LONG
+          python example.py
+          # assert the gate produced a defensive REDUCE on this fixture
+          python - <<'PY'
+          from cmc_macro import MacroGate
+          f = MacroGate("cmc_macro.json").evaluate("LONG")
+          assert f["action"] == "REDUCE", f
+          assert 0 < f["size_mult"] < 0.5, f
+          assert not f["stale"], f
+          print("gate smoke test OK:", f)
+          PY
