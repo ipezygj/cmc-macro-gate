@@ -131,6 +131,7 @@ Adjust to taste for your venue and risk appetite.
 
 - `cmc_macro.py` — collector (`refresh`) + gate (`MacroGate`) + CLI, one file
 - `example.py` — minimal end-to-end usage demo
+- `hummingbot_example.py` — runnable Hummingbot `ScriptStrategyBase` template
 - `cmc_macro.json` — generated cache (gitignore it)
 
 ## License
