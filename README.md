@@ -69,6 +69,54 @@ if macro["action"] == "VETO":
 | `stale`      | `true` if cache too old → neutralized to `1.0`       |
 | `note`       | short human-readable reason string                   |
 
+## Hummingbot integration
+
+The gate is a **pre-flight risk layer** — Hummingbot still owns execution and
+any deployment stays user-confirmed. The pattern: run the collector as a
+background process, then read the gate in your strategy and scale the order
+amount (or skip) before placing orders.
+
+Run the cache refresher alongside your bot:
+
+```bash
+python cmc_macro.py refresh --loop 3600 &     # hourly background daemon
+```
+
+Then in a `ScriptStrategyBase` script, gate your orders:
+
+```python
+from decimal import Decimal
+from hummingbot.strategy.script_strategy_base import ScriptStrategyBase
+from cmc_macro import MacroGate
+
+
+class MacroGatedStrategy(ScriptStrategyBase):
+    markets = {"binance_paper_trade": {"BTC-USDT"}}
+
+    base_order_amount = Decimal("0.01")
+    gate = MacroGate("cmc_macro.json")        # reads the cache, no network
+
+    def on_tick(self):
+        macro = self.gate.evaluate(direction="LONG")
+
+        # VETO -> stand down this tick
+        if macro["action"] == "VETO":
+            self.logger().info(f"Macro veto ({macro['note']}) — no order")
+            return
+
+        # otherwise scale the order by the macro size multiplier
+        amount = self.base_order_amount * Decimal(str(macro["size_mult"]))
+        self.logger().info(
+            f"Macro {macro['regime']} (F&G {macro['fear_greed']}) "
+            f"-> size x{macro['size_mult']} = {amount}"
+        )
+        # ... build and submit your OrderCandidate(s) with `amount` ...
+```
+
+`evaluate()` does only a local file read, so it's safe to call every tick. The
+same `macro["size_mult"]` / `macro["action"]` works just as well inside a
+Hummingbot V2 controller's `update_processed_data` / `create_actions_proposal`.
+
 ## Tuning
 
 All the mapping lives in two places in `cmc_macro.py`:
