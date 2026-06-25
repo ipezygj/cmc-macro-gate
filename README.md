@@ -3,6 +3,12 @@
 [![CI](https://github.com/ipezygj/cmc-macro-gate/actions/workflows/ci.yml/badge.svg)](https://github.com/ipezygj/cmc-macro-gate/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![Python](https://img.shields.io/badge/python-3.9%2B-blue)
+![Status](https://img.shields.io/badge/status-proof--of--concept-orange)
+
+> **Status: proof-of-concept — feedback & co-building welcome.** This is a
+> starting point for a CMC × Hummingbot risk-gate integration, not a finished
+> product. PRs, issues, and "I'd do it differently" notes are all very welcome —
+> see [Open questions](#open-questions) below.
 
 A tiny, dependency-free **macro risk-budget layer** for any trading engine,
 powered by the [CoinMarketCap Skill Hub](https://coinmarketcap.com). Pure Python
@@ -139,6 +145,30 @@ Adjust to taste for your venue and risk appetite.
 - `example.py` — minimal end-to-end usage demo
 - `hummingbot_example.py` — runnable Hummingbot `ScriptStrategyBase` template
 - `cmc_macro.json` — generated cache (gitignore it)
+
+## Open questions
+
+This is a proof-of-concept and the design decisions are deliberately up for
+debate. Things I'd genuinely love feedback on:
+
+1. **Right CMC skill?** This uses `daily_market_overview` as the macro feed. Is
+   that the best source for a risk gate, or would `crypto_macro_overview` /
+   `macro_liquidity_monitor` / a per-symbol skill fit better?
+2. **Cache vs. live.** The gate reads an offline cache so the trading hot path
+   never blocks on the network. Is the hourly refresh cadence + 24h staleness
+   fallback sensible, or should it be event-driven?
+3. **Regime → multiplier mapping.** The `REGIME_MULTIPLIER` table and the
+   extreme-fear / defensive-long rules are first-guess values. What would a
+   principled, backtested mapping look like — and is size-scaling the right
+   lever vs. gating entry selection?
+4. **Hummingbot integration shape.** Is a `ScriptStrategyBase` template the most
+   useful entry point, or should this ship as a V2 controller / a reusable
+   component for the broader community?
+5. **Scope.** Should this stay a tiny single-file gate, or grow into a small
+   package with more CMC lanes (ETF flows, cross-asset, news sentiment)?
+
+Issues / PRs / "I'd do it differently" notes all welcome — happy to build this
+out together.
 
 ## License
 
